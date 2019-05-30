@@ -136,7 +136,8 @@ nodes = [
     {'host': "127.0.0.1", 'port': 9999, 'name': "%smix-1" % PRE},
     {'host': "127.0.0.1", 'port': 9996, 'name': "%smix-2" % PRE},
     {'host': "127.0.0.1", 'port': 9998, 'name': "%spro-1" % PRE},
-    {'host': "127.0.0.1", 'port': 9997, 'name': "%sclient-1" % PRE}
+    {'host': "127.0.0.1", 'port': 9997, 'name': "%sclient-1" % PRE},
+    {'host': "127.0.0.1", 'port': 9995, 'name': "%sclient-2" % PRE},
 ]
 
 def deploy_all():
@@ -147,6 +148,7 @@ def deploy_all():
     deployProvider(nodes[2])
     storeProvidersNames()
     deployClient(nodes[3])
+    deployClient(nodes[4])
     readFiles()
     loaddir(nodes)
 
@@ -172,7 +174,7 @@ def run_all():
     runMixnode(nodes[0])
     runMixnode(nodes[1])
     runProvider(nodes[2])
-    runClient(nodes[3])
+#     runClient(nodes[3])
 
 deploy_all()
 run_all()

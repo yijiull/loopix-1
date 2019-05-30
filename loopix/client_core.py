@@ -38,6 +38,8 @@ class ClientCore(object):
         if routing_flag == Dest_flag:
             dest, message = self.packer.handle_received_forward(new_body)
             if dest == [self.host, self.port, self.name]:
+                if message.startswith('HT'):
+                    return "LOOP", []
                 return "NEW", message
             else:
                 return "ERROR", []

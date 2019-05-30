@@ -43,6 +43,7 @@ class LoopixClient(DatagramProtocol):
         self.make_loop_stream()
         self.make_drop_stream()
         self.make_real_stream()
+        # self.say_hello()
 
     def get_network_info(self):
         self.dbManager = DatabaseManager(self.config_params.DATABASE_NAME)
@@ -72,10 +73,14 @@ class LoopixClient(DatagramProtocol):
 
     def register_friends(self, clients):
         self.befriended_clients = clients
+        self.befriended_clients = sorted(self.befriended_clients, key=lambda tup: (tup.host, tup.port))
+        for idx, client in enumerate(clients):
+            if client.host == self.host and client.port == self.port:
+                self.client_idx = idx
 
     def turn_on_packet_processing(self):
         self.retrieve_messages()
-        self.reactor.callLater(20.0, self.get_and_addCallback, self.handle_packet)
+        self.reactor.callLater(5.0, self.get_and_addCallback, self.handle_packet)
         log.msg("[%s] > Turned on retrieving and processing of messages" % self.name)
 
     def retrieve_messages(self):
@@ -99,6 +104,8 @@ class LoopixClient(DatagramProtocol):
         decoded_packet = petlib.pack.decode(packet)
         if not decoded_packet[0] == 'DUMMY':
             flag, decrypted_packet = self.crypto_client.process_packet(decoded_packet)
+            if flag == "NEW":
+                self.frontend.reply(decrypted_packet)
             return (flag, decrypted_packet)
 
     def send_message(self, message, receiver):
@@ -160,3 +167,19 @@ class LoopixClient(DatagramProtocol):
 
     def stopProtocol(self):
         log.msg("[%s] > Stopped" % self.name)
+
+    def sendto(self, message, dest_idx):
+        receiver = self.befriended_clients[dest_idx]
+        path = self.construct_full_path(receiver)
+        header, body = self.crypto_client.pack_real_message(message, receiver, path)
+        self.send((header, body))
+
+    def say_hello(self):
+        path = self.construct_full_path(c)
+        header, body = self.crypto_client.pack_real_message("hello", c, path)
+        self.send((header, body))
+        print "send real msg"
+        self.schedule_next_call(2, self.say_hello)
+
+    def set_frontend(self, frontend):
+        self.frontend = frontend
