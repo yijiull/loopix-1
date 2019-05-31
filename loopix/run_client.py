@@ -22,18 +22,19 @@ try:
     _, name, port, host, _, prvinfo = petlib.pack.decode(data)
 
     client = LoopixClient(sec_params, name, port, host, provider_id = prvinfo, privk = secret)
-    # udp_server = internet.UDPServer(port, client)
-    # application = service.Application("Client")
-    # udp_server.setServiceParent(application)
-
     connector = LoopixConnector(host, port, client)
-    # udp_connector = internet.UDPServer(port + 10, connector)
-    # udp_connector.setServiceParent(application)
-    
     client.set_frontend(connector)
-    reactor.listenUDP(port, client)
-    reactor.listenUDP(port + 1000, connector)
-    reactor.run()
+
+    udp_server = internet.UDPServer(port, client)
+    udp_connector = internet.UDPServer(port + 10, connector)
     
+    application = service.Application("Client")
+    udp_server.setServiceParent(application)
+    udp_connector.setServiceParent(application)
+
+    # reactor.listenUDP(port, client)
+    # reactor.listenUDP(port + 1000, connector)
+    # reactor.run()
+
 except Exception, e:
- 	print str(e)
+    print e

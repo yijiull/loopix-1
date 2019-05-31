@@ -1,0 +1,3 @@
+[submodule "loopix/remote"]
+	path = loopix/remote
+	url = git@github.com:jianyu-m/cluster-remote.git
