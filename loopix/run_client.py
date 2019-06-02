@@ -26,7 +26,7 @@ try:
     client.set_frontend(connector)
 
     udp_server = internet.UDPServer(port, client)
-    udp_connector = internet.UDPServer(port + 10, connector)
+    udp_connector = internet.UDPServer(port + 1000, connector)
     
     application = service.Application("Client")
     udp_server.setServiceParent(application)

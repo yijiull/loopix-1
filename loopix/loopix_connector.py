@@ -17,7 +17,7 @@ class LoopixConnector(DatagramProtocol):
         self.internal_port = port + 1000
 
     def datagramReceived(self, data, (host, port)):
-        dest_high, dest_low = struct.unpack('>BB', data[2:4])
+        dest_high, dest_low = struct.unpack('>BB', data[3:5])
         dest_idx = dest_high * 256 + dest_low
         print "send msg to " + str(dest_idx)
         self.client.sendto(data, dest_idx)
@@ -25,7 +25,7 @@ class LoopixConnector(DatagramProtocol):
 
     # reply to frontend
     def reply(self, message):
-        idx_high, idx_low = struct.unpack('>BB', message[0:2])
+        idx_high, idx_low = struct.unpack('>BB', message[3:5])
         idx = idx_high * 256 + idx_low
         print "received message from " + str(idx)
         self.transport.write(message, ("127.0.0.1", self.local_port))

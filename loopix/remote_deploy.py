@@ -142,7 +142,7 @@ def runProvider():
 def runClient():
     for client in clients:
         with connect(client['host'], client['name'] + "/loopix/loopix/", False) as r:
-            r.execute("python run_client.py")
+            r.execute("twistd -y run_client.py")
 
 def run_all():
     runMixnode()
