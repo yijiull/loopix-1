@@ -172,7 +172,7 @@ class LoopixClient(DatagramProtocol):
         receiver = self.befriended_clients[dest_idx]
         path = self.construct_full_path(receiver)
         header, body = self.crypto_client.pack_real_message(message, receiver, path)
-        self.send((header, body))
+        self.output_buffer.put((header, body))
 
     def say_hello(self):
         path = self.construct_full_path(c)
