@@ -10,7 +10,7 @@ from twisted.application import service, internet
 import petlib.pack
 from sphinxmix.SphinxParams import SphinxParams
 
-file_name = os.path.basename(sys.argv[0])
+file_name = os.path.basename(__file__)
 port = int(file_name[file_name.find('_', 5) + 1: file_name.find('.')])
 
 if not (os.path.exists("secretProvider-%d.prv" % port) and os.path.exists("publicProvider-%d.bin" % port)):
