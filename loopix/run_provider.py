@@ -17,7 +17,7 @@ if not (os.path.exists("secretProvider-%d.prv" % port) and os.path.exists("publi
 	raise Exception("Key parameter files not found")
 
 secret = petlib.pack.decode(file("secretProvider-%d.prv" % port, "rb").read())
-_, name, port, host, _ = petlib.pack.decode(file("publicProvider-%d.in" % port, "rb").read())
+_, name, port, host, _ = petlib.pack.decode(file("publicProvider-%d.bin" % port, "rb").read())
 sec_params = SphinxParams(header_len=1024)
 
 try:

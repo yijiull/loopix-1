@@ -21,7 +21,7 @@ if not (os.path.exists("secretClient-%d.prv" % port) and os.path.exists("publicC
 secret = petlib.pack.decode(file("secretClient-%d.prv" % port, "rb").read())
 sec_params = SphinxParams(header_len=1024)
 try:
-    data = file("publicClient.bin-%d" % port, "rb").read()
+    data = file("publicClient-%d.bin" % port, "rb").read()
     _, name, port, host, _, prvinfo = petlib.pack.decode(data)
 
     client = LoopixClient(sec_params, name, port, host, provider_id = prvinfo, privk = secret)
