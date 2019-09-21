@@ -12,7 +12,9 @@ from twisted.internet import reactor
 from twisted.application import service, internet
 from sphinxmix.SphinxParams import SphinxParams
 
-port = int(sys.argv[1])
+
+file_name = os.path.basename(sys.argv[0])
+port = int(file_name[file_name.find('_', 5) + 1: file_name.find('.')])
 if not (os.path.exists("secretClient-%d.prv" % port) and os.path.exists("publicClient-%d.bin" % port)):
     raise Exception("Key parameter files not found")
 
