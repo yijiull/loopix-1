@@ -557,7 +557,7 @@ def cleanAll():
 c = 0
 @roles("mixnodes")
 # @parallel
-def deployMixnode():
+def deployMixnode(): 
     global c
     with cd('loopix'):
         run("git pull")

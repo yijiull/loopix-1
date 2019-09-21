@@ -12,13 +12,14 @@ from twisted.internet import reactor
 from twisted.application import service, internet
 from sphinxmix.SphinxParams import SphinxParams
 
-if not (os.path.exists("secretClient.prv") and os.path.exists("publicClient.bin")):
+port = int(sys.argv[1])
+if not (os.path.exists("secretClient-%d.prv" % port) and os.path.exists("publicClient-%d.bin" % port)):
     raise Exception("Key parameter files not found")
 
-secret = petlib.pack.decode(file("secretClient.prv", "rb").read())
+secret = petlib.pack.decode(file("secretClient-%d.prv" % port, "rb").read())
 sec_params = SphinxParams(header_len=1024)
 try:
-    data = file("publicClient.bin", "rb").read()
+    data = file("publicClient.bin-%d" % port, "rb").read()
     _, name, port, host, _, prvinfo = petlib.pack.decode(data)
 
     client = LoopixClient(sec_params, name, port, host, provider_id = prvinfo, privk = secret)

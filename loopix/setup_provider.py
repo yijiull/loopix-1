@@ -15,10 +15,10 @@ if __name__ == "__main__":
 		G, o, g, o_bytes = setup
 
 		secret = o.random()
-		file("secretProvider.prv", "wb").write(petlib.pack.encode(secret))
+		file("secretProvider-%d.prv" % port, "wb").write(petlib.pack.encode(secret))
 
 		pub = secret * g
-		file("publicProvider.bin", "wb").write(petlib.pack.encode(["provider", name, port, host, pub]))
+		file("publicProvider-%d.bin" % port, "wb").write(petlib.pack.encode(["provider", name, port, host, pub]))
 
 	else:
 		print "Files Exist"

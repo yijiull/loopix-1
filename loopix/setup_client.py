@@ -17,9 +17,9 @@ if __name__ == "__main__":
 		G, o, g, o_bytes = setup
 
 		secret = o.random()
-		file("secretClient.prv", "wb").write(petlib.pack.encode(secret))
+		file("secretClient-%d.prv" % port, "wb").write(petlib.pack.encode(secret))
 
 		pub = secret * g
-		file("publicClient.bin", "wb").write(petlib.pack.encode(["client", name, port, host, pub, prvinfo]))
+		file("publicClient-%d.bin" % port, "wb").write(petlib.pack.encode(["client", name, port, host, pub, prvinfo]))
 	else:
 		print "Files exist"

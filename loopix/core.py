@@ -33,6 +33,7 @@ def take_mix_sequence(current_layer, num_all_layers):
         j = (j + 1) % num_all_layers
     return sequence
 
+# TODO
 def group_layered_topology(mixes):
     sorted_mixes = sorted(mixes, key=attrgetter('group'))
     grouped_mixes = [list(group) for _, group in itertools.groupby(sorted_mixes,

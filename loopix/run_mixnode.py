@@ -13,15 +13,15 @@ from binascii import hexlify
 import os.path
 from sphinxmix.SphinxParams import SphinxParams
 
-name = sys.argv[1]
+port = int(sys.argv[1])
 
-if not (os.path.exists("secretMixnode.prv") and os.path.exists("publicMixnode.bin")):
+if not (os.path.exists("secretMixnode-%d.prv" % port) and os.path.exists("publicMixnode-%d.bin" % port)):
 	raise Exception("Key parameter files not found")
 
-secret = petlib.pack.decode(file("secretMixnode.prv", "rb").read())
+secret = petlib.pack.decode(file("secretMixnode-%d.prv" % port, "rb").read())
 sec_params = SphinxParams(header_len=1024)
 try:
-	data = file("publicMixnode.bin", "rb").read()
+	data = file("publicMixnode-%d.bin" % port, "rb").read()
 	_, name, port, host, group, _ = petlib.pack.decode(data)
 
 	mix = LoopixMixNode(sec_params, name, port, host, group, privk=secret, pubk=None)
