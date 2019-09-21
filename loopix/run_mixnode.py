@@ -13,7 +13,8 @@ from binascii import hexlify
 import os.path
 from sphinxmix.SphinxParams import SphinxParams
 
-port = int(sys.argv[1])
+file_name = sys.argv[0]
+port = int(file_name[file_name.find('_') + 1: file_name.find('.')])
 
 if not (os.path.exists("secretMixnode-%d.prv" % port) and os.path.exists("publicMixnode-%d.bin" % port)):
 	raise Exception("Key parameter files not found")
